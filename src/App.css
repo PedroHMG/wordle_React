@@ -1,0 +1,53 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.grid-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+}
+.letter-grid {
+  display: grid;
+  grid-template-columns: 300px;
+  grid-template-rows: repeat(5, 60px);;
+  grid-gap: 5px;
+}
+
+
+
+.letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  background-color: aqua;
+  border-radius: 10%;
+  text-transform: uppercase;
+  border: solid 1px;
+}
+
+.letter.correct {
+  background-color: rgb(126, 255, 119);
+}
+
+.letter.miss {
+  background-color: rgb(254, 121, 121);
+}
+
+.letter.close {
+  background-color: rgb(248, 255, 55);
+}
+
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+}
