@@ -2,14 +2,11 @@ import React from "react";
 import LetterRow from "./LetterRow";
 
 
-
-
-
-
 export default function Main() {
 
-  const correctWord = "qwerq"
+  const correctWord = "patos"
   const [winState, setWinState] = React.useState(false)
+  const [lostState, setLostState] = React.useState(false)
   const [correctState, setCorrectState] = React.useState(new Array(5).fill().map(() => {
     return new Array(5).fill('')
   }))
@@ -42,9 +39,6 @@ export default function Main() {
       } 
       return isCorrectArray[index]
     })
-    
-
-
 
 
     if (isCorrectArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0) === 10) {
@@ -69,8 +63,6 @@ export default function Main() {
       }
       
     }))
-    // const isCorrectArray = correctArray.map((item, index) => item === wordArray[rowEdit][index])
-    // const isPresentAray = wordArray[rowEdit].map(item => correctArray.includes(item))
     console.log({resultArray, isCorrectArray})
   }
 
