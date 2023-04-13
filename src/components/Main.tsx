@@ -1,27 +1,33 @@
 import React from "react";
 import LetterRow from "./LetterRow";
+import Keyboard from "./Keyboard";
 
 
 export default function Main() {
 
   const correctWord = "patos"
+  const [keyState, setKeyState] = React.useState({})
   const [winState, setWinState] = React.useState(false)
   const [lostState, setLostState] = React.useState(false)
-  const [correctState, setCorrectState] = React.useState(new Array(5).fill().map(() => {
+  const [correctState, setCorrectState] = React.useState(new Array(6).fill().map(() => {
     return new Array(5).fill('')
   }))
-  const [wordArray, setWordArray] = React.useState(new Array(5).fill().map(() => {
+  const [wordArray, setWordArray] = React.useState(new Array(6).fill().map(() => {
     return new Array(5).fill('')
   }))
-
   const [rowEdit, setRowEdit] = React.useState(0)
 
 
-  function checkCorrect () {
+  function clickHandle(key) {
+    const e = { "key": key }
+    handleKey(e)
+  }
+
+  function checkCorrect() {
     let correctCharArray = correctWord.split('')
-    
+
     const isCorrectArray = wordArray[rowEdit].map((item, index) => {
-      console.log(correctCharArray)
+      // console.log(correctCharArray)
       if (item === correctCharArray[index]) {
         correctCharArray[index] = ''
         return 2
@@ -33,10 +39,10 @@ export default function Main() {
     const resultArray = wordArray[rowEdit].map((item, index) => {
       if (correctCharArray.includes(item)) {
         correctCharArray[correctCharArray.indexOf(item)] = ''
-          if (isCorrectArray[index] !== 2) {
-            return isCorrectArray[index] + 1
-          }  
-      } 
+        if (isCorrectArray[index] !== 2) {
+          return isCorrectArray[index] + 1
+        }
+      }
       return isCorrectArray[index]
     })
 
@@ -61,14 +67,31 @@ export default function Main() {
       } else {
         return item
       }
-      
     }))
-    console.log({resultArray, isCorrectArray})
+
+
+
+
+    setKeyState(prevKeyState => {
+      const reversedWordArray = wordArray[rowEdit].slice().reverse()
+      const reversedStateArray = stateArray.slice().reverse()
+
+      const objKeys = Object.fromEntries(reversedWordArray.map((item, index) => {
+        if (item in prevKeyState && prevKeyState[item] !== "close") {
+          return [item, prevKeyState[item]]
+        }
+        return [item, reversedStateArray[index]]
+      }));
+      return { ...prevKeyState, ...objKeys }
+    })
+
+
+
   }
 
 
   const handleKey = (event) => {
-    const {key} = event
+    const { key } = event
 
     const rowLenght = wordArray[rowEdit].filter(el => el.length > 0).length
 
@@ -102,25 +125,28 @@ export default function Main() {
         })
       })
     }
-  
+
   }
 
 
   const wordleGrid = wordArray.map((item, index) => {
-    return <LetterRow key={index} status={correctState[index]} charArray={item}/>
+    return <LetterRow key={index} status={correctState[index]} charArray={item} />
   })
 
   return (
     <main>
-      <div tabIndex={0} onKeyDown={handleKey} className="grid-wrapper">
-        <div className="letter-grid">
-          {wordleGrid}
+      <div tabIndex={0} onKeyDown={handleKey} className="wordle-wrapper">
+        <div className="grid-wrapper">
+          <div className="letter-grid">
+            {wordleGrid}
+          </div>
         </div>
+        <Keyboard keyState={keyState} clickHandle={clickHandle} />
+        {winState && <div className="win-box">
+          <h1>Well done!</h1>
+          <h3>Number of tries: {rowEdit}</h3>
+        </div>}
       </div>
-      {winState && <div>
-        <h1>You win!</h1>
-        <h3>Number of tries: {rowEdit}</h3>
-      </div>}
     </main>
   )
 }
