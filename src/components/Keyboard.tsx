@@ -11,7 +11,12 @@ export default function Keyboard(props) {
 
   const keyboardButtons = keyboardKeys.map(keysRow => {
     return keysRow.map((key, index) => {
-      return <button key={index} onClick={() => props.clickHandle(key)} className={`keyboard-key ${props.keyState[key] ? props.keyState[key] : ""}`}>{key}</button>
+      return <button 
+        key={index} 
+        onClick={() => props.clickHandle(key)} 
+        className={`keyboard-key ${props.keyState[key] ? props.keyState[key] : ""}`}>
+          {key}
+      </button>
     })
   })
 

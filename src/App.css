@@ -20,16 +20,15 @@ header {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
+
 .letter-grid {
   display: grid;
   grid-template-columns: 300px;
   grid-template-rows: repeat(6, 60px);;
   grid-gap: 5px;
 }
-
-
 
 .letter {
   display: flex;
